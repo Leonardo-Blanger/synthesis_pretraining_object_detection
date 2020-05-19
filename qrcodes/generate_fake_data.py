@@ -128,12 +128,8 @@ for year in ['VOC2007', 'VOC2012']:
 
     ids = []
     for split in splits:
-
-        # TODO: REMOVE THIS
-        if year != 'VOC2007':
-            continue
-
         ids_file = os.path.join(VOC_DIR, year, 'ImageSets', 'Main', split+'.txt')
+
         with open(ids_file, 'r') as f:
             ids += [line.strip() for line in f.readlines()]
 
