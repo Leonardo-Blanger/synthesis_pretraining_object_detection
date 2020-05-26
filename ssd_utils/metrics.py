@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from tqdm import tqdm_notebook as tqdm
+from tqdm import tqdm
 
 from . import output_encoder
 
