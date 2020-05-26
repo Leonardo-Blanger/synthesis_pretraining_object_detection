@@ -1,11 +1,19 @@
+import os
 from os import path
 import pandas as pd
+import sys
 import tensorflow as tf
+
+root_path = os.path.abspath(os.path.join('..'))
+if root_path not in sys.path:
+    sys.path.append(root_path)
+
+from ssd_utils import output_encoder
 
 
 def read_and_resize_image(image_path, boxes, new_size):
     image = tf.io.read_file(image_path)
-    image = tf.image.decode_jpeg(image)
+    image = tf.image.decode_jpeg(image, channels=3)
 
     if new_size is not None:
         prior_shape = tf.shape(image)
@@ -25,8 +33,8 @@ def read_and_resize_image(image_path, boxes, new_size):
     return image, boxes
 
 
-def load_qr_codes_dataset(root=path.join("..", "data", "qr_codes"),
-                          split='train'):
+def load_qr_codes(root=path.join("..", "data", "qr_codes"),
+                  split='train'):
     annotations_file = path.join(root, "qr_codes_{}.csv".format(split))
     annotations = pd.read_csv(annotations_file,
                               dtype={'image_id': str})
@@ -47,6 +55,7 @@ def load_qr_codes_dataset(root=path.join("..", "data", "qr_codes"),
         xmaxs.append(xmax)
         ymaxs.append(ymax)
 
+    image_paths = tf.convert_to_tensor(image_paths)
     xmins = tf.ragged.constant(xmins, dtype='int32')
     ymins = tf.ragged.constant(ymins, dtype='int32')
     xmaxs = tf.ragged.constant(xmaxs, dtype='int32')
@@ -54,4 +63,43 @@ def load_qr_codes_dataset(root=path.join("..", "data", "qr_codes"),
     labels = tf.ones_like(xmins, dtype='int32')
     bnd_boxes = tf.stack([xmins, ymins, xmaxs, ymaxs, labels], axis=2)
 
-    return tf.data.Dataset.from_tensor_slices((image_paths, bnd_boxes))
+    print('Loaded {} image samples'.format(len(image_paths)))
+    return image_paths, bnd_boxes
+
+
+def build_dataset(image_paths, bnd_boxes, image_size=None, batch_size=None,
+                  repeat=False, shuffle=False, shuffle_buffer=100,
+                  encode_output=False, anchors=None, model=None):
+
+    dataset = tf.data.Dataset.from_tensor_slices((image_paths, bnd_boxes))
+
+    if repeat:
+        dataset = dataset.repeat()
+
+    if shuffle:
+        dataset = dataset.shuffle(shuffle_buffer,
+                                  reshuffle_each_iteration=True)
+
+    if image_size is not None:
+        dataset = dataset.map(lambda x, y:
+                              read_and_resize_image(x, y, new_size=image_size))
+
+    if encode_output:
+        def encode_fn(image, boxes):
+            encoded = output_encoder.encode(boxes,
+                                            anchors=anchors,
+                                            model=model)
+            return image, encoded
+        dataset = dataset.map(lambda x, y:
+                              tf.py_function(encode_fn,
+                                             [x, y.to_tensor()],
+                                             [tf.uint8, tf.float32]))
+        input_shape = image_size + (3,)
+        output_shape = anchors.shape[:1] + (4 + model.num_classes,)
+        dataset = dataset.map(lambda x, y: (tf.reshape(x, input_shape),
+                                            tf.reshape(y, output_shape)))
+
+    if batch_size is not None:
+        dataset = dataset.batch(batch_size, drop_remainder=False)
+
+    return dataset
