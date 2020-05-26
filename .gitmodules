@@ -1,0 +1,3 @@
+[submodule "faces/ReDO"]
+	path = faces/ReDO
+	url = https://github.com/mickaelChen/ReDO.git
