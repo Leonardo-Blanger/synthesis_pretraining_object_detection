@@ -33,6 +33,36 @@ for architecture in config.ARCHITECTURES:
     model = model_class(num_classes=len(config.CLASSES))
     anchors = model.get_anchors(image_shape=config.IMAGE_SIZE + (3,))
 
+    train_type = 'pretrained'
+    results['architecture'].append(architecture)
+    results['train_samples'].append(None)
+    results['train_type'].append(train_type)
+
+    for run in range(1, config.NUM_RUNS+1):
+        weights_dir = 'weights_{}'.format(run)
+
+        model_name = architecture.lower() + '_{}'.format(train_type)
+        print('\nGenerating results for {}'.format(model_name))
+
+        model_file = model_name + '.h5'
+        model_path = os.path.join(weights_dir, model_file)
+
+        if not os.path.exists(model_path):
+            raise Exception('Model weights at {} not found'.format(model_path))
+
+        model.load_weights(model_path)
+        meanAP_metric.reset_state()
+
+        for x, y_true in test_data:
+            ground_truth = [y.to_tensor() for y in y_true]
+            predictions = [output_encoder.decode(y, anchors, model)
+                            for y in model(x)]
+            meanAP_metric.update_state(ground_truth, predictions)
+
+        test_meanAP = meanAP_metric.result().numpy()
+        results['run_{}'.format(run)].append(test_meanAP)
+        print('test meanAP:', test_meanAP)
+
     for train_samples in config.TRAIN_SAMPLES:
         for train_type in ['from_scratch', 'finetuned']:
 

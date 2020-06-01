@@ -65,9 +65,10 @@ for run in range(1, config.NUM_RUNS+1):
                                             save_best_only=True,
                                             save_weights_only=True)
 
-            model.compile(optimizer="adam", loss=SSDLoss())
+            model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),
+                          loss=SSDLoss())
 
-            history = model.fit(fake_data, epochs=config.NUM_EPOCHS,
+            history = model.fit(fake_data, epochs=config.NUM_EPOCHS_PRETRAIN,
                                 steps_per_epoch=config.STEPS_PER_EPOCH,
                                 callbacks=[meanAP_callback, ckpt_callback])
 
@@ -124,7 +125,8 @@ for run in range(1, config.NUM_RUNS+1):
                                                     save_best_only=True,
                                                     save_weights_only=True)
 
-                    model.compile(optimizer="adam", loss=SSDLoss())
+                    model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),
+                                  loss=SSDLoss())
 
                     history = model.fit(train_data, epochs=config.NUM_EPOCHS,
                                         steps_per_epoch=config.STEPS_PER_EPOCH,
