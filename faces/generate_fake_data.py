@@ -8,14 +8,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from PIL import Image
-import qrcode
 import random
 import string
+import sys
 import tensorflow as tf
 import torch
 from tqdm import tqdm
 
 from augmentation import photometric_seq, geometric_seq
+
+root_path = os.path.abspath(os.path.join('..'))
+if root_path not in sys.path:
+    sys.path.append(root_path)
 
 # Set CPU as available physical device for tensorflow
 my_devices = tf.config.experimental.list_physical_devices(device_type='CPU')
@@ -72,7 +76,7 @@ MAX_OBJECTS_PER_IMAGE = args.max_objects
 MAX_TRIES = args.max_tries
 VOC_DIR = args.voc_dir
 FAKE_OBJECTS_DIR = args.fake_objects_dir
-IGNORE_VOC_CLASSES = []
+IGNORE_VOC_CLASSES = ['person']
 
 ######### Object data loaders ########################################
 
@@ -231,7 +235,7 @@ def create_sample():
                 y2 = y1 + face_height
                 x2 = x1 + face_width
                 bnd_boxes.append(
-                    ia.BoundingBox(x1=x1, y1=y1, x2=x2, y2=y2, label='qr_code')
+                    ia.BoundingBox(x1=x1, y1=y1, x2=x2, y2=y2, label='face')
                 )
 
             ok = True
@@ -261,7 +265,7 @@ def create_sample():
     return image, bnd_boxes
 
 
-ANNOTATIONS_FILE = os.path.join(OUTPUT_DIR, 'qr_codes_fake.csv')
+ANNOTATIONS_FILE = os.path.join(OUTPUT_DIR, 'faces_fake.csv')
 IMAGES_DIR = os.path.join(OUTPUT_DIR, 'images')
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
