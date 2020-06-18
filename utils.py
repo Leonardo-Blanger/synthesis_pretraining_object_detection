@@ -3,11 +3,6 @@ import os
 import sys
 import tensorflow as tf
 
-root_path = os.path.abspath(os.path.join('..'))
-if root_path not in sys.path:
-    sys.path.append(root_path)
-
-from qr_codes_loader import read_and_resize_image
 from ssd_utils import output_encoder
 from ssd_utils.metrics import MeanAveragePrecision
 

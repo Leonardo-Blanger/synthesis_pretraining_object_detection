@@ -75,6 +75,7 @@ for run in range(1, config.NUM_RUNS+1):
             with open(history_path, 'wb') as f:
                 pickle.dump(history.history, f)
 
+            model.load_weights(model_file)
             model.save_weights(model_path)
             os.remove(model_file)
             del model, fake_data
@@ -135,6 +136,7 @@ for run in range(1, config.NUM_RUNS+1):
                     with open(history_path, 'wb') as f:
                         pickle.dump(history.history, f)
 
+                    model.load_weights(model_file)
                     model.save_weights(model_path)
                     os.remove(model_file)
                     del model, train_data
