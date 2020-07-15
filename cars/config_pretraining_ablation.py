@@ -1,0 +1,5 @@
+from config import *
+
+NUM_REAL_SAMPLES = 100
+PROP_FAKE_SAMPLES = [1, 2, 4, 8]
+NUM_EPOCHS_MIXED = NUM_EPOCHS * 2
