@@ -8,7 +8,7 @@ results = pd.read_csv('results.csv')
 groups = results.groupby(['architecture', 'train_type']).groups
 
 for architecture in config.ARCHITECTURES:
-    plt.figure(figsize=(14, 7))
+    plt.figure(figsize=(9, 7))
     
     lines = results.iloc[groups[(architecture, 'pretrained')]]
 
@@ -22,6 +22,8 @@ for architecture in config.ARCHITECTURES:
                xmin=-config.TRAIN_SAMPLES[-1],
                xmax=2*config.TRAIN_SAMPLES[-1],
                linestyles='dashed')
+
+    print("\n{} pretrained only: {:.2f}% +- {:.2f}%".format(architecture, avg_meanAP, std_meanAP))
 
     xs = np.arange(-config.TRAIN_SAMPLES[-1], 2*config.TRAIN_SAMPLES[-1], 0.01)
     y_min = np.zeros_like(xs) + avg_meanAP - std_meanAP
@@ -39,23 +41,29 @@ for architecture in config.ARCHITECTURES:
         avg_meanAP = meanAPs.mean(axis=1)*100
         std_meanAP = meanAPs.std(axis=1)*100
 
+        for num_samples, mAP, std in zip(config.TRAIN_SAMPLES, avg_meanAP, std_meanAP):
+            print("\n{} {} on {} samples: {:.2f}% +- {:.2f}%".format(architecture, train_type, num_samples, mAP, std))
+
         plt.errorbar(train_samples, avg_meanAP, yerr=std_meanAP, label=train_type)
 
 
-    X_TICKS = []
+    Xs, X_TICKS = [], []
     ALL_SAMPLES = config.TRAIN_SAMPLES[-1]
     for num_samples in config.TRAIN_SAMPLES:
+        #if num_samples == 10 or num_samples%100 == 0:
+        Xs.append(num_samples)
         X_TICKS.append('{}\n~{:.0f}%'.format(num_samples, 100*num_samples/ALL_SAMPLES))
 
-    plt.xticks(config.TRAIN_SAMPLES, X_TICKS)
+    plt.xticks(Xs, X_TICKS)
     plt.tick_params(axis='both', which='major', labelsize=12)
     plt.xlim(xmin = 0, xmax = config.TRAIN_SAMPLES[-1]+10)
     plt.ylim(ymax = 75)
-    plt.title(architecture, size=20)
+    plt.title(architecture + " (QR Codes)", size=20)
     plt.xlabel("# Train Samples", size=16)
     plt.ylabel("Test meanAP@0.5 (%)", size=16)
     plt.legend(loc="lower right")
     plt.subplots_adjust(left=0.05, right=0.99, top=0.95, bottom=0.101)
+    plt.tight_layout()
     
-    plt.savefig(architecture.lower() + '_main_results.png')
+    plt.savefig(architecture.lower() + '_test_results_qrcodes.png')
     plt.show()
