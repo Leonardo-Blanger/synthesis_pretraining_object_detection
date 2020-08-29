@@ -51,18 +51,18 @@ for architecture in config.ARCHITECTURES:
     Xs, X_TICKS = [], []
     ALL_SAMPLES = config.TRAIN_SAMPLES[-1]
     for num_samples in config.TRAIN_SAMPLES:
-        if num_samples == 10 or num_samples%100 == 0:
+        if num_samples == 50 or num_samples%1000 == 0 or num_samples == ALL_SAMPLES:
             Xs.append(num_samples)
             X_TICKS.append('{}\n~{:.0f}%'.format(num_samples, 100*num_samples/ALL_SAMPLES))
 
     plt.xticks(Xs, X_TICKS)
-    plt.tick_params(axis='both', which='major', labelsize=12)
+    plt.tick_params(axis='both', which='major', labelsize=17)
     plt.xlim(xmin = 0, xmax = config.TRAIN_SAMPLES[-1]+10)
     plt.ylim(ymax = 105)
     plt.title(architecture + " (Cars)", size=20)
-    plt.xlabel("# Train Samples", size=16)
-    plt.ylabel("Test meanAP@0.5 (%)", size=16)
-    plt.legend(loc="lower right")
+    plt.xlabel("# Train Samples", size=18)
+    plt.ylabel("Test meanAP@0.5 (%)", size=18)
+    plt.legend(loc="lower right", fontsize=17)
     plt.subplots_adjust(left=0.05, right=0.99, top=0.95, bottom=0.101)
     plt.tight_layout()
     

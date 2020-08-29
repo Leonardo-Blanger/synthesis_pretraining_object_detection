@@ -28,16 +28,16 @@ for architecture in config.ARCHITECTURES:
         std_meanAP = meanAPs.std(axis=0) * 100
 
         train_iterations = np.arange(1, config.NUM_EPOCHS+1) * config.STEPS_PER_EPOCH
-        
-        plt.errorbar(train_iterations, avg_meanAP, yerr=std_meanAP, label=train_type)
-        plt.xticks(train_iterations[::2])
 
-    plt.tick_params(axis='both', which='major', labelsize=13)
+        plt.errorbar(train_iterations, avg_meanAP, yerr=std_meanAP, label=train_type)
+        plt.xticks(np.concatenate([train_iterations[:-2:2], train_iterations[-1:]]))
+
+    plt.tick_params(axis='both', which='major', labelsize=17)
     plt.ylim(ymax = 75)
     plt.title(architecture + " (QR Codes)", size=20)
-    plt.xlabel("Train Iteration", size=16)
-    plt.ylabel("Validation meanAP@0.5 (%)", size=16)
-    plt.legend(loc="lower right")
+    plt.xlabel("Train Iteration", size=18)
+    plt.ylabel("Validation mAP@0.5 (%)", size=18)
+    plt.legend(loc="lower right", fontsize=17)
     plt.subplots_adjust(left=0.05, right=0.99, top=0.95, bottom=0.08)
     plt.tight_layout()
     

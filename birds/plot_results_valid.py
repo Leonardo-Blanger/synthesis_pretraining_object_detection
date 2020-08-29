@@ -32,12 +32,12 @@ for architecture in config.ARCHITECTURES:
         plt.errorbar(train_iterations, avg_meanAP, yerr=std_meanAP, label=train_type)
         plt.xticks(train_iterations[::3])
 
-    plt.tick_params(axis='both', which='major', labelsize=13)
+    plt.tick_params(axis='both', which='major', labelsize=17)
     plt.ylim(ymax = 105)
     plt.title(architecture + " (Birds)", size=20)
-    plt.xlabel("Train Iteration", size=16)
-    plt.ylabel("Validation meanAP@0.5 (%)", size=16)
-    plt.legend(loc="lower right")
+    plt.xlabel("Train Iteration", size=18)
+    plt.ylabel("Validation meanAP@0.5 (%)", size=18)
+    plt.legend(loc="lower right", fontsize=17)
     plt.subplots_adjust(left=0.05, right=0.99, top=0.95, bottom=0.08)
     plt.tight_layout()
     
