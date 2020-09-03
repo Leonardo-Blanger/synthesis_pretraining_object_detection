@@ -3,5 +3,5 @@ data/
 .ipynb_checkpoints/
 weights_*/
 *~
-*.png
+
 

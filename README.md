@@ -45,6 +45,13 @@ This will train all the models, and save their weights and training histories in
 python plot_results_valid.py
 ```
 
+You should get results similar to the following:
+
+<img src="/qrcodes/ssdmobilenet_valid_results_qrcodes.png" width=240><img src="/faces/ssdmobilenet_valid_results_faces.png" width=240><img src="/birds/ssdmobilenet_valid_results_birds.png" width=240><img src="/cars/ssdmobilenet_valid_results_cars.png" width=240>
+
+<img src="/qrcodes/ssdresnet50_valid_results_qrcodes.png" width=240><img src="/faces/ssdresnet50_valid_results_faces.png" width=240><img src="/birds/ssdresnet50_valid_results_birds.png" width=240><img src="/cars/ssdresnet50_valid_results_cars.png" width=240>
+
+
 Next, evaluate all the saved model weights on the test set with the following.
 
 ``` bash
@@ -57,7 +64,12 @@ This saves the test set results for all models and runs on the `results.csv` tab
 python plot_results_test.py
 ```
 
-and print all the numeric results using:
+<img src="/qrcodes/ssdmobilenet_test_results_qrcodes.png" width=240><img src="/faces/ssdmobilenet_test_results_faces.png" width=240><img src="/birds/ssdmobilenet_test_results_birds.png" width=240><img src="/cars/ssdmobilenet_test_results_cars.png" width=240>
+
+<img src="/qrcodes/ssdresnet50_test_results_qrcodes.png" width=240><img src="/faces/ssdresnet50_test_results_faces.png" width=240><img src="/birds/ssdresnet50_test_results_birds.png" width=240><img src="/cars/ssdresnet50_test_results_cars.png" width=240>
+
+
+You can also print all the numeric results using:
 
 ``` bash
 python generate_tables.py
@@ -67,7 +79,7 @@ python generate_tables.py
 
 ### Pretraining Ablation
 
-These set of experiments aimed at evaluating the importance of the pretraining initialization strategy followed by finetuing on real data. For this, we compared it against a single training session using real and synthesized data mixed together. For fairness, the single training session is run for the same number of iterations as the pretraining plus finetuing stages.
+These set of experiments aimed at evaluating the importance of the pretraining initialization strategy followed by finetuning on real data. For this, we compared it against a single training session using real and synthesized data mixed together. For fairness, the single training session is run for the same number of iterations as the pretraining plus finetuning stages.
 
 For running this ablation experiments, do the following:
 
