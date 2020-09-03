@@ -47,9 +47,9 @@ python plot_results_valid.py
 
 You should get results similar to the following:
 
-<img src="/qrcodes/ssdmobilenet_valid_results_qrcodes.png" width=240><img src="/faces/ssdmobilenet_valid_results_faces.png" width=240><img src="/birds/ssdmobilenet_valid_results_birds.png" width=240><img src="/cars/ssdmobilenet_valid_results_cars.png" width=240>
+<img src="/qrcodes/ssdmobilenet_valid_results_qrcodes.png" width=230><img src="/faces/ssdmobilenet_valid_results_faces.png" width=230><img src="/birds/ssdmobilenet_valid_results_birds.png" width=230><img src="/cars/ssdmobilenet_valid_results_cars.png" width=230>
 
-<img src="/qrcodes/ssdresnet50_valid_results_qrcodes.png" width=240><img src="/faces/ssdresnet50_valid_results_faces.png" width=240><img src="/birds/ssdresnet50_valid_results_birds.png" width=240><img src="/cars/ssdresnet50_valid_results_cars.png" width=240>
+<img src="/qrcodes/ssdresnet50_valid_results_qrcodes.png" width=230><img src="/faces/ssdresnet50_valid_results_faces.png" width=230><img src="/birds/ssdresnet50_valid_results_birds.png" width=230><img src="/cars/ssdresnet50_valid_results_cars.png" width=230>
 
 
 Next, evaluate all the saved model weights on the test set with the following.
@@ -64,9 +64,9 @@ This saves the test set results for all models and runs on the `results.csv` tab
 python plot_results_test.py
 ```
 
-<img src="/qrcodes/ssdmobilenet_test_results_qrcodes.png" width=240><img src="/faces/ssdmobilenet_test_results_faces.png" width=240><img src="/birds/ssdmobilenet_test_results_birds.png" width=240><img src="/cars/ssdmobilenet_test_results_cars.png" width=240>
+<img src="/qrcodes/ssdmobilenet_test_results_qrcodes.png" width=230><img src="/faces/ssdmobilenet_test_results_faces.png" width=230><img src="/birds/ssdmobilenet_test_results_birds.png" width=230><img src="/cars/ssdmobilenet_test_results_cars.png" width=230>
 
-<img src="/qrcodes/ssdresnet50_test_results_qrcodes.png" width=240><img src="/faces/ssdresnet50_test_results_faces.png" width=240><img src="/birds/ssdresnet50_test_results_birds.png" width=240><img src="/cars/ssdresnet50_test_results_cars.png" width=240>
+<img src="/qrcodes/ssdresnet50_test_results_qrcodes.png" width=230><img src="/faces/ssdresnet50_test_results_faces.png" width=230><img src="/birds/ssdresnet50_test_results_birds.png" width=230><img src="/cars/ssdresnet50_test_results_cars.png" width=230>
 
 
 You can also print all the numeric results using:
