@@ -91,7 +91,7 @@ To preproduce these experiments, you first need run the naive synthesis script, 
 
 ```bash
 cd faces
-python generate_fake_data_naive.py
+python generate_fake_data_naive.py --num_samples=200000
 python naive_pasting_ablation.py
 python generate_results_naive_pasting_ablation.py
 ```
@@ -118,7 +118,7 @@ To reproduce these experiments, just run:
 
 ``` bash
 cd faces
-python generate_fake_data_nogan.py
+python generate_fake_data_nogan.py --num_samples=200000
 python nogan_ablation.py
 python generate_results_nogan_ablation.py
 ```
